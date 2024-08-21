@@ -11,14 +11,111 @@
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
    </VSEOCLASS>
+   <TPOOL>
+    <item>
+     <ID>I</ID>
+     <KEY>Q01</KEY>
+     <ENTRY>Seleccione una opción</ENTRY>
+     <LENGTH>42</LENGTH>
+    </item>
+   </TPOOL>
+   <I18N_TPOOL>
+    <item>
+     <LANGUAGE>2</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>Q01</KEY>
+       <ENTRY>Select an option</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
+    <item>
+     <LANGUAGE>E</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>Q01</KEY>
+       <ENTRY>Select an option</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
+    <item>
+     <LANGUAGE>H</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>Q01</KEY>
+       <ENTRY>Select an option</ENTRY>
+       <LENGTH>42</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
+   </I18N_TPOOL>
    <DESCRIPTIONS>
     <SEOCOMPOTX>
-     <CLSNAME>ZCL_GA_UTIL</CLSNAME>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
      <LANGU>S</LANGU>
      <DESCRIPT>CONSTRUCTOR</DESCRIPT>
     </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>M_SINGLETON</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>util</DESCRIPT>
+    </SEOCOMPOTX>
    </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_LVC_FCAT</CMPNAME>
+     <SCONAME>RT_FCAT</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Catálogo campos p.ListViewerControl</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_PARENT_CLASS</CMPNAME>
+     <SCONAME>IP_CLASS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Nombre de tipo de objeto</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_PARENT_CLASS</CMPNAME>
+     <SCONAME>R_CLASS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Nombre de tipo de objeto</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_SINGLETON</CMPNAME>
+     <SCONAME>R_SINGLE</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>util</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>IS_SUBCLASS</CMPNAME>
+     <SCONAME>IP_CLASS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Nombre de tipo de objeto</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>IS_SUBCLASS</CMPNAME>
+     <SCONAME>IP_SUBCLASS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Nombre de tipo de objeto</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SHOW_MESSAGES</CMPNAME>
+     <SCONAME>IOT_ANSWER</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Log aplicación: Tecla confirmada por usuario al finalizar</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>SHOW_MESSAGES</CMPNAME>
+     <SCONAME>IT_MESSAGES</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Tabla retorno</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
   </asx:values>
  </asx:abap>
 </abapGit>

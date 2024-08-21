@@ -11,7 +11,111 @@
    </PROGDIR>
    <I18N_TPOOL>
     <item>
+     <LANGUAGE>2</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>001</KEY>
+       <ENTRY>Options</ENTRY>
+       <LENGTH>132</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>002</KEY>
+       <ENTRY>Feature</ENTRY>
+       <LENGTH>132</LENGTH>
+      </item>
+      <item>
+       <ID>R</ID>
+       <ENTRY>Demo</ENTRY>
+       <LENGTH>4</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_BREAK</KEY>
+       <ENTRY>Enable Break-Points</ENTRY>
+       <LENGTH>27</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEST</KEY>
+       <ENTRY>Destination</ENTRY>
+       <LENGTH>19</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_MACRO</KEY>
+       <ENTRY>Macro</ENTRY>
+       <LENGTH>13</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_QUERY</KEY>
+       <ENTRY>Querying</ENTRY>
+       <LENGTH>16</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_TYPE</KEY>
+       <ENTRY>Dynamic Typing</ENTRY>
+       <LENGTH>22</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
+    <item>
      <LANGUAGE>E</LANGUAGE>
+     <TEXTPOOL>
+      <item>
+       <ID>I</ID>
+       <KEY>001</KEY>
+       <ENTRY>Options</ENTRY>
+       <LENGTH>132</LENGTH>
+      </item>
+      <item>
+       <ID>I</ID>
+       <KEY>002</KEY>
+       <ENTRY>Feature</ENTRY>
+       <LENGTH>132</LENGTH>
+      </item>
+      <item>
+       <ID>R</ID>
+       <ENTRY>Demo</ENTRY>
+       <LENGTH>4</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_BREAK</KEY>
+       <ENTRY>Enable Break-Points</ENTRY>
+       <LENGTH>27</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_DEST</KEY>
+       <ENTRY>Destination</ENTRY>
+       <LENGTH>19</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_MACRO</KEY>
+       <ENTRY>Macro</ENTRY>
+       <LENGTH>13</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_QUERY</KEY>
+       <ENTRY>Querying</ENTRY>
+       <LENGTH>16</LENGTH>
+      </item>
+      <item>
+       <ID>S</ID>
+       <KEY>P_TYPE</KEY>
+       <ENTRY>Dynamic Typing</ENTRY>
+       <LENGTH>22</LENGTH>
+      </item>
+     </TEXTPOOL>
+    </item>
+    <item>
+     <LANGUAGE>H</LANGUAGE>
      <TEXTPOOL>
       <item>
        <ID>I</ID>

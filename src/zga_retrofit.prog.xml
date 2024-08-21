@@ -11,9 +11,75 @@
    </PROGDIR>
    <TPOOL>
     <item>
+     <ID>I</ID>
+     <KEY>E01</KEY>
+     <ENTRY>Ruta no disponible</ENTRY>
+     <LENGTH>28</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>E02</KEY>
+     <ENTRY>Con la opción Copy, tanto Origen como Destino es obligatorio</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>E03</KEY>
+     <ENTRY>Destino es obligatorio tanto para Añadir al Buffer como Importar)</ENTRY>
+     <LENGTH>130</LENGTH>
+    </item>
+    <item>
      <ID>R</ID>
      <ENTRY>Programa ZGA_RETROFIT</ENTRY>
      <LENGTH>21</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>CK_BUFF</KEY>
+     <ENTRY>Ejecutar ZBUFFER</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>CK_COPY</KEY>
+     <ENTRY>Copiar archivos a SAPDIR</ENTRY>
+     <LENGTH>32</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>CK_DOWN</KEY>
+     <ENTRY>Descargar ficheros</ENTRY>
+     <LENGTH>26</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>CK_IMPT</KEY>
+     <ENTRY>Ejecutar ZIMPORT</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_DES</KEY>
+     <ENTRY>Sistema Destino</ENTRY>
+     <LENGTH>23</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_FOLDER</KEY>
+     <ENTRY>Carpeta</ENTRY>
+     <LENGTH>15</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_KORR</KEY>
+     <ENTRY>Orden</ENTRY>
+     <LENGTH>13</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_SRC</KEY>
+     <ENTRY>Sistema Origen</ENTRY>
+     <LENGTH>22</LENGTH>
     </item>
    </TPOOL>
   </asx:values>

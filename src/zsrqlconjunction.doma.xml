@@ -20,11 +20,21 @@
     </DD07V>
    </DD07V_TAB>
    <I18N_LANGS>
+    <LANGU>2</LANGU>
     <LANGU>E</LANGU>
+    <LANGU>H</LANGU>
    </I18N_LANGS>
    <DD01_TEXTS>
     <item>
+     <DDLANGUAGE>2</DDLANGUAGE>
+     <DDTEXT>Logical Conjunction</DDTEXT>
+    </item>
+    <item>
      <DDLANGUAGE>E</DDLANGUAGE>
+     <DDTEXT>Logical Conjunction</DDTEXT>
+    </item>
+    <item>
+     <DDLANGUAGE>H</DDLANGUAGE>
      <DDTEXT>Logical Conjunction</DDTEXT>
     </item>
    </DD01_TEXTS>

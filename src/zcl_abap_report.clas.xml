@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_ABAP_REPORT</CLSNAME>
+    <LANGU>S</LANGU>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>TPARAMS</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: Estructura general para PARAMETERs y SELECT OPTIONs</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>HIGH</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: Valor de selección (valor LOW, HIGH, formato externo)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>KIND</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: Clase de selección</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>LOW</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: Valor de selección (valor LOW, HIGH, formato externo)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>OPTION</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: Opción de selección (EQ/BT/CP/...)</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>SELNAME</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP/4: Nombre de SELECT-OPTION / PARAMETERS</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_PARAM</CMPNAME>
+     <SCONAME>SIGN</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>ABAP: indicador para incluir/excluir valores</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>ADD_RANGE</CMPNAME>
+     <SCONAME>SELNAME</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Abreviatura para obtención datos</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>REMOVE_TAG</CMPNAME>
+     <SCONAME>HTML_TABLE</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Tabla HTML para la salida vía RFC</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>RUN_REPORT_AND_GET_ALV_DATA</CMPNAME>
+     <SCONAME>REPORT_NAME</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Nombre del report ABAP</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

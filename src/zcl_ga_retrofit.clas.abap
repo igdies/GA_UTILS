@@ -6,6 +6,14 @@ class ZCL_GA_RETROFIT definition
 
 public section.
 
+  types:
+    BEGIN OF ty_s_system,
+      sysid  TYPE sysid,
+      mandt  TYPE mandt,
+      rfc    TYPE rfcdest,
+      folder TYPE string,
+    END OF ty_s_system .
+
   methods ADD_TO_BUFFER
     returning
       value(R_BOOL) type ABAP_BOOL
@@ -36,16 +44,20 @@ public section.
       value(IP_DESTIN_SYSTEM) type SYSID
     raising
       ZCX_GA_RETROFIT .
+  methods GET_COFILE
+    returning
+      value(R_SYSTEM) type STRING .
+  methods GET_DATAFILE
+    returning
+      value(R_SYSTEM) type STRING .
+  methods GET_DESTIN_SYSTEM
+    returning
+      value(R_SYSTEM) type TY_S_SYSTEM .
+  methods GET_SOURCE_SYSTEM
+    returning
+      value(R_SYSTEM) type TY_S_SYSTEM .
 protected section.
 PRIVATE SECTION.
-
-  TYPES:
-    BEGIN OF ty_s_system,
-      sysid  TYPE sysid,
-      mandt  TYPE mandt,
-      rfc    TYPE rfcdest,
-      folder TYPE string,
-    END OF ty_s_system .
 
   DATA m_cofile TYPE string .
   DATA m_datafile TYPE string .
@@ -67,16 +79,30 @@ PRIVATE SECTION.
     BEGIN OF c_ind_system,
       sysid  TYPE sysid VALUE 'IND',
       mandt  TYPE mandt VALUE '100',
-      rfc    type rfcdest value 'IND',
+      rfc    TYPE rfcdest VALUE 'IND',
       folder TYPE string VALUE '\\MAZVMIND01\trans\',
     END OF c_ind_system .
   CONSTANTS:
     BEGIN OF c_grd_system,
       sysid  TYPE sysid VALUE 'GRD',
       mandt  TYPE mandt VALUE '001',
-      rfc    type rfcdest value 'GRD',
+      rfc    TYPE rfcdest VALUE 'GRD',
       folder TYPE string VALUE '\\GANVMGRD01\sapmnt\trans\',
     END OF c_grd_system .
+  CONSTANTS:
+    BEGIN OF c_par_system,
+      sysid  TYPE sysid VALUE 'PAR',
+      mandt  TYPE mandt VALUE '010',
+      rfc    TYPE rfcdest VALUE 'PAR',
+      folder TYPE string VALUE '\\GANVMQGA22\sapmnt\trans\',
+    END OF c_par_system .
+  CONSTANTS:
+    BEGIN OF c_lcl_system,
+      sysid TYPE sysid VALUE 'LCL',
+      mandt TYPE mandt VALUE space,
+      rfc   TYPE rfcdest VALUE space,
+*      folder TYPE string VALUE ,
+    END OF c_lcl_system .
   DATA m_order TYPE trkorr .
   DATA m_source_system TYPE ty_s_system .
   DATA m_destin_system TYPE ty_s_system .
@@ -129,43 +155,78 @@ CLASS ZCL_GA_RETROFIT IMPLEMENTATION.
     super->constructor( ip_logger ).
 
 
+
     DATA: ld_system TYPE string.
-
-    ld_system = |C_{ ip_source_system }_SYSTEM|.
-    ASSIGN (ld_system)  TO FIELD-SYMBOL(<lf_system>).
-    IF <lf_system> IS NOT ASSIGNED.
-      zcx_ga_retrofit=>raise_text( |System { ip_source_system } is not defined| ).
+    IF ip_source_system IS NOT INITIAL.
+      ld_system = |C_{ ip_source_system }_SYSTEM|.
+      ASSIGN (ld_system)  TO FIELD-SYMBOL(<lf_system>).
+      IF <lf_system> IS NOT ASSIGNED.
+*        zcx_ga_retrofit=>raise_text( |System { ip_source_system } is not defined| ).
+        RAISE EXCEPTION TYPE zcx_ga_retrofit
+          EXPORTING
+            error = CONV #( |System { ip_source_system } is not defined| ).
+      ENDIF.
+      m_source_system = <lf_system>.
     ENDIF.
-    m_source_system = <lf_system>.
 
 
-    UNASSIGN <lf_system>.
-    ld_system = |C_{ ip_destin_system }_SYSTEM|.
-    ASSIGN (ld_system)  TO <lf_system>.
-    IF <lf_system> IS NOT ASSIGNED.
-      zcx_ga_retrofit=>raise_text( |System { ip_destin_system } is not defined| ).
+    IF ip_destin_system IS NOT INITIAL.
+      UNASSIGN <lf_system>.
+      ld_system = |C_{ ip_destin_system }_SYSTEM|.
+      ASSIGN (ld_system)  TO <lf_system>.
+      IF <lf_system> IS NOT ASSIGNED.
+*        zcx_ga_retrofit=>raise_text( |System { ip_destin_system } is not defined| ).
+        RAISE EXCEPTION TYPE zcx_ga_retrofit
+          EXPORTING
+            error = CONV #( |System { ip_destin_system } IS NOT defined| ).
+      ENDIF.
+      m_destin_system = <lf_system>.
     ENDIF.
-    m_destin_system = <lf_system>.
+
 
 
     m_order = ip_order.
     m_cofile = |{ m_order+3 }.{ m_order(3) }|.
     m_datafile = |R{ m_cofile+1 }|.
     TRY.
-        IF NOT zcl_ga_file=>file_exists( ip_file = |{ m_source_system-folder }\\cofiles\\{ m_cofile } | ip_local = abap_false ).
-          zcx_ga_retrofit=>raise_text( |Cofile { m_cofile } does not exist at source| ).
+        IF m_source_system IS NOT INITIAL.
+          IF NOT zcl_ga_file=>file_exists( ip_file = |{ m_source_system-folder }\\cofiles\\{ m_cofile } | ip_local = abap_false ).
+*            zcx_ga_retrofit=>raise_text( |Cofile { m_cofile } does not exist at source| ).
+            RAISE EXCEPTION TYPE zcx_ga_retrofit
+              EXPORTING
+                error = CONV #( |Cofile { m_cofile } does not exist at source| ).
+          ENDIF.
+
+          IF NOT zcl_ga_file=>file_exists( ip_file = |{ m_source_system-folder }\\data\\{ m_datafile } | ip_local = abap_false ).
+*            zcx_ga_retrofit=>raise_text( |Datafile { m_datafile } does not exist at source| ).
+            RAISE EXCEPTION TYPE zcx_ga_retrofit
+              EXPORTING
+                error = CONV #( |Cofile { m_datafile } does NOT exist AT source| ).
+          ENDIF.
         ENDIF.
-        IF NOT zcl_ga_file=>file_exists( ip_file = |{ m_source_system-folder }\\data\\{ m_datafile } | ip_local = abap_false ).
-          zcx_ga_retrofit=>raise_text( |Datafile { m_datafile } does not exist at source| ).
+        IF m_destin_system IS NOT INITIAL.
+          DATA: ld_folder TYPE string.
+          ld_folder = |{ m_destin_system-folder }\\cofiles\\|.
+          IF NOT zcl_ga_file=>folder_exists( EXPORTING  ip_local = abap_false CHANGING ip_folder =  ld_folder ).
+*            zcx_ga_retrofit=>raise_text( |No access to Cofile Folder at { m_destin_system-sysid }|  ).
+            RAISE EXCEPTION TYPE zcx_ga_retrofit
+              EXPORTING
+                error = CONV #( |No access to Cofile Folder at { m_destin_system-sysid }| ).
+          ENDIF.
+          ld_folder = |{ m_destin_system-folder }\\data\\|.
+          IF NOT zcl_ga_file=>folder_exists( EXPORTING  ip_local = abap_false CHANGING ip_folder =  ld_folder ).
+*            zcx_ga_retrofit=>raise_text( |No access to Data Folder at { m_destin_system-sysid }| ).
+            RAISE EXCEPTION TYPE zcx_ga_retrofit
+              EXPORTING
+                error = CONV #( |No access to Data Folder at { m_destin_system-sysid }| ).
+          ENDIF.
         ENDIF.
-        IF NOT zcl_ga_file=>folder_exists( ip_folder = |{ m_destin_system-folder }\\cofiles\\| ip_local = abap_false ).
-          zcx_ga_retrofit=>raise_text( |No access to Cofile Folder at { m_destin_system-sysid }| ).
-        ENDIF.
-        IF NOT zcl_ga_file=>folder_exists( ip_folder = |{ m_destin_system-folder }\\data\\| ip_local = abap_false ).
-          zcx_ga_retrofit=>raise_text( |No access to Data Folder at { m_destin_system-sysid }| ).
-        ENDIF.
+
       CATCH zcx_ga_file INTO DATA(lx_file).
-        zcx_ga_retrofit=>raise_text( lx_file->get_text( ) ).
+*        zcx_ga_retrofit=>raise_text( lx_file->get_text( ) ).
+        RAISE EXCEPTION TYPE zcx_ga_retrofit
+          EXPORTING
+            error = CONV #( lx_file->get_text( ) ).
     ENDTRY.
 
   ENDMETHOD.
@@ -210,7 +271,10 @@ CLASS ZCL_GA_RETROFIT IMPLEMENTATION.
 
       CATCH zcx_ga_file INTO DATA(lx_file).
         log_exception( lx_file ).
-        zcx_ga_retrofit=>raise_text( lx_file->get_text( ) ).
+*        zcx_ga_retrofit=>raise_text( lx_file->get_text( ) ).
+        RAISE EXCEPTION TYPE zcx_ga_retrofit
+          EXPORTING
+            error = CONV #( lx_file->get_text( ) ).
     ENDTRY.
 
   ENDMETHOD.
@@ -224,7 +288,10 @@ CLASS ZCL_GA_RETROFIT IMPLEMENTATION.
         r_bool = zcl_ga_file=>file_exists( ip_file = |{ m_destin_system-folder }\\data\\{ m_datafile } | ip_local = abap_false ).
       CATCH zcx_ga_file INTO DATA(lx_error).
         log_exception( lx_error ).
-        zcx_ga_retrofit=>raise_text( lx_error->get_text( ) ).
+*        zcx_ga_retrofit=>raise_text( lx_error->get_text( ) ).
+        RAISE EXCEPTION TYPE zcx_ga_retrofit
+          EXPORTING
+            error = CONV #( lx_error->get_text( ) ).
     ENDTRY.
   ENDMETHOD.
 
@@ -277,6 +344,26 @@ METHOD execute_command.
         ENDLOOP.
     ENDCASE.
 
+  ENDMETHOD.
+
+
+  METHOD GET_COFILE.
+    r_system = m_cofile.
+  ENDMETHOD.
+
+
+  METHOD get_datafile.
+    r_system = m_datafile.
+  ENDMETHOD.
+
+
+  METHOD get_destin_system.
+    r_system = m_destin_system.
+  ENDMETHOD.
+
+
+  METHOD GET_SOURCE_SYSTEM.
+    r_system = m_source_system.
   ENDMETHOD.
 
 

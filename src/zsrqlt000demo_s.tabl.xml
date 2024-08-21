@@ -33,11 +33,21 @@
     </DD03P>
    </DD03P_TABLE>
    <I18N_LANGS>
+    <LANGU>2</LANGU>
     <LANGU>E</LANGU>
+    <LANGU>H</LANGU>
    </I18N_LANGS>
    <DD02_TEXTS>
     <item>
+     <DDLANGUAGE>2</DDLANGUAGE>
+     <DDTEXT>Demo DDIC Structure</DDTEXT>
+    </item>
+    <item>
      <DDLANGUAGE>E</DDLANGUAGE>
+     <DDTEXT>Demo DDIC Structure</DDTEXT>
+    </item>
+    <item>
+     <DDLANGUAGE>H</DDLANGUAGE>
      <DDTEXT>Demo DDIC Structure</DDTEXT>
     </item>
    </DD02_TEXTS>
