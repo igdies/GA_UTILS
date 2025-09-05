@@ -77,12 +77,24 @@ endif.
 * If message was supplied explicitly use this
 *--------------------------------------------------------------------*
       result = me->error .
-    ELSEIF me->syst_at_raise IS NOT INITIAL.
+    ELSEIF me->syst_at_raise IS NOT INITIAL
+      AND me->syst_at_raise-msgid IS NOT INITIAL.
 *--------------------------------------------------------------------*
 * If message was supplied by syst create messagetext now
 *--------------------------------------------------------------------*
-      MESSAGE ID syst_at_raise-msgid TYPE syst_at_raise-msgty NUMBER syst_at_raise-msgno
-      WITH  syst_at_raise-msgv1 syst_at_raise-msgv2 syst_at_raise-msgv3 syst_at_raise-msgv4
+      DATA(ld_msgty) =
+           SWITCH syst_msgty( me->syst_at_raise-msgty
+             WHEN 'A' OR 'E' OR 'I' OR 'W' OR 'S' OR 'X'
+               THEN me->syst_at_raise-msgty
+             ELSE 'E'
+
+           ).
+      MESSAGE ID me->syst_at_raise-msgid TYPE ld_msgty
+      NUMBER me->syst_at_raise-msgno
+      WITH  me->syst_at_raise-msgv1
+            me->syst_at_raise-msgv2
+            me->syst_at_raise-msgv3
+            me->syst_at_raise-msgv4
       INTO  result.
     ELSE.
 *--------------------------------------------------------------------*

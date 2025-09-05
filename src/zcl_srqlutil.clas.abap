@@ -49,6 +49,14 @@ public section.
       !LINE type ANY
     raising
       ZCX_SRQLTYPE .
+  class-methods SPLIT_TEXT
+    importing
+      value(I_TEXT) type STRING
+      value(I_LENGTH) type I default 72
+    exporting
+      value(O_TEXT) type CSEQUENCE
+    returning
+      value(R_TEXT) type STRING .
 protected section.
 private section.
 ENDCLASS.
@@ -239,4 +247,34 @@ method set_field.
   endtry.
 
 endmethod.
+
+
+  METHOD split_text.
+    DATA ld_text TYPE string.
+    DATA lt_results TYPE  match_result_tab.
+    ld_text = i_text.
+    IF strlen( ld_text ) <= i_length.
+      r_text = ld_text.
+      CLEAR o_text.
+      RETURN.
+    ENDIF.
+    ld_text = ld_text(i_length).
+    FIND ALL OCCURRENCES OF REGEX '\s' IN ld_text RESULTS lt_results.
+    IF lines( lt_results ) > 0.
+      SORT lt_results BY offset DESCENDING.
+      ASSIGN lt_results[ 1 ] TO FIELD-SYMBOL(<lf_result>).
+      IF <lf_result> IS ASSIGNED.
+        r_text = ld_text(<lf_result>-offset).
+        o_text = i_text+<lf_result>-offset.
+        RETURN.
+      ENDIF.
+    ELSE.
+      r_text = ld_text.
+      CLEAR o_text.
+    ENDIF.
+
+    r_text = ld_text.
+    CLEAR o_text.
+
+  ENDMETHOD.
 ENDCLASS.

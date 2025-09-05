@@ -66,14 +66,14 @@ PRIVATE SECTION.
       sysid  TYPE sysid VALUE 'TST',
       mandt  TYPE mandt VALUE '010',
       rfc    TYPE rfcdest VALUE 'NONE',
-      folder TYPE string VALUE '\\esgaispd02\pub-saptrans\R3\',
+      folder TYPE string VALUE '\\sapazssi\pub-saptrans\R3\',
     END OF c_tst_system .
   CONSTANTS:
     BEGIN OF c_hrd_system,
       sysid  TYPE sysid VALUE 'HRD',
       mandt  TYPE mandt VALUE '020',
       rfc    TYPE rfcdest VALUE 'HRD',
-      folder TYPE string VALUE '\\esgaispd02\pub-saptrans\HR\',
+      folder TYPE string VALUE '\\sapazssi\pub-saptrans\HR\',
     END OF c_hrd_system .
   CONSTANTS:
     BEGIN OF c_ind_system,

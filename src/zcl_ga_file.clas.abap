@@ -176,22 +176,23 @@ CLASS zcl_ga_file DEFINITION
         zcx_ga_file .
     CLASS-METHODS read_xlsx
       IMPORTING
-                !ip_file                    TYPE string
-                VALUE(ip_local)             TYPE abap_bool DEFAULT abap_true
-                VALUE(ip_has_header)        TYPE abap_bool DEFAULT abap_false
-                VALUE(ip_start_row)         TYPE int1 DEFAULT 2
-                VALUE(ip_start_column)      TYPE int1 DEFAULT 0
-                VALUE(ip_wks_title)         TYPE csequence OPTIONAL
-                VALUE(ip_apply_conv)        TYPE abap_bool DEFAULT abap_false
-                VALUE(ip_continue_on_error) TYPE abap_bool DEFAULT abap_false
-                VALUE(ip_show_error)        TYPE abap_bool DEFAULT abap_false
-                VALUE(ip_date_pattern)      TYPE string OPTIONAL
-                VALUE(io_xlsx_reader)       TYPE REF TO zif_excel_reader OPTIONAL
+        !ip_file                    TYPE string
+        VALUE(ip_local)             TYPE abap_bool DEFAULT abap_true
+        VALUE(ip_has_header)        TYPE abap_bool DEFAULT abap_false
+        VALUE(ip_start_row)         TYPE int1 DEFAULT 2
+        VALUE(ip_start_column)      TYPE int1 DEFAULT 0
+        VALUE(ip_wks_title)         TYPE csequence OPTIONAL
+        VALUE(ip_apply_conv)        TYPE abap_bool DEFAULT abap_false
+        VALUE(ip_continue_on_error) TYPE abap_bool DEFAULT abap_false
+        VALUE(ip_show_error)        TYPE abap_bool DEFAULT abap_false
+        VALUE(ip_date_pattern)      TYPE string OPTIONAL
+        VALUE(io_xlsx_reader)       TYPE REF TO zif_excel_reader OPTIONAL
       CHANGING
-                !iot_target_table           TYPE STANDARD TABLE
-      RETURNING VALUE(r_ok)                 TYPE abap_bool
+        !iot_target_table           TYPE STANDARD TABLE
+      RETURNING
+        VALUE(r_ok)                 TYPE abap_bool
       RAISING
-                zcx_ga_file .
+        zcx_ga_file .
     CLASS-METHODS write_xlsx
       IMPORTING
         !ip_file                TYPE string
@@ -202,6 +203,16 @@ CLASS zcl_ga_file DEFINITION
         VALUE(ip_start_column)  TYPE int1 DEFAULT 0
         VALUE(ip_use_abap_xlsx) TYPE abap_bool DEFAULT abap_false
         VALUE(it_source_table)  TYPE STANDARD TABLE
+      RAISING
+        zcx_ga_file .
+    CLASS-METHODS server_directory_list_enh
+      IMPORTING
+        VALUE(ip_folder)       TYPE csequence
+        VALUE(ip_filter)       TYPE csequence DEFAULT '*.*'
+        VALUE(ip_files_only)   TYPE abap_bool DEFAULT abap_false
+        VALUE(ip_folders_only) TYPE abap_bool DEFAULT abap_false
+      RETURNING
+        VALUE(rt_files)        TYPE ty_t_files_path
       RAISING
         zcx_ga_file .
     CLASS-METHODS write_csv
@@ -1208,10 +1219,13 @@ CLASS zcl_ga_file IMPLEMENTATION.
         not_supported_by_gui = 4
         OTHERS               = 5.
     IF sy-subrc <> 0.
-*      zcx_ga_file=>raise_symsg( ).
-      RAISE EXCEPTION TYPE zcx_ga_file
-        EXPORTING
-          syst_at_raise = syst.
+
+      IF syst-msgid IS NOT INITIAL AND syst-msgno IS INITIAL.
+        zcx_ga_file=>raise_symsg( ).
+      ELSE.
+        zcx_ga_file=>raise_text( |Error at ZCL_GA_FILE=>LOCAL_FILE_EXISTS = { sy-subrc } { ip_file }| ).
+      ENDIF.
+
 
     ENDIF.
 
@@ -1947,6 +1961,150 @@ CLASS zcl_ga_file IMPLEMENTATION.
   ENDMETHOD.
 
 
+  METHOD server_directory_list_enh.
+    DATA: "ld_dirname   TYPE rsmrgstr-path,
+      ld_dirname TYPE dirname_al11,
+      ld_filname TYPE rsmrgstr-name,
+      ld_pattern TYPE rsmrgstr-name.
+    ld_dirname = ip_folder.
+    ld_filname = '*'.
+    ld_pattern = ip_filter.
+*    CALL FUNCTION 'ZSUBST_GET_FILE_LIST'
+*      EXPORTING
+*        dirname      = ld_dirname
+*        filenm       = ld_filname
+*        pattern      = ld_pattern
+*      TABLES
+*        file_list    = lt_file_list
+*      EXCEPTIONS
+*        access_error = 1
+*        OTHERS       = 2.
+
+    DATA: sap_yes(1) VALUE 'X',
+          sap_no(1)  VALUE ' '.
+    DATA: no_cs VALUE ' '.
+
+*DATA FILE like FILE_LIST.
+    DATA: BEGIN OF file,
+            dirname(75) TYPE c, " name of directory. (possibly truncated.)
+            name(255)   TYPE c, " name of entry. (possibly truncated.)
+            type(10)    TYPE c,            " type of entry.
+            len(8)      TYPE p,            " length in bytes.
+            owner(8)    TYPE c,            " owner of the entry.
+            mtime(6)    TYPE p, " last modification date, seconds since 1970
+            fmode(9)    TYPE c, " like "rwx-r-x--x": protection mode.
+            useable(1)  TYPE c,
+            subrc(4)    TYPE c,
+            errno(3)    TYPE c,
+            errmsg(40)  TYPE c,
+            mod_date    TYPE d,
+            mod_time(8) TYPE c,            " hh:mm:ss
+            seen(1)     TYPE c,
+            changed(1)  TYPE c,
+          END OF file.
+
+    DATA: lt_file_list LIKE TABLE OF file,
+          ls_file_list LIKE file.
+    DATA: errcnt(2) TYPE p VALUE 0.
+
+    CALL 'C_DIR_READ_FINISH'             " just to be sure
+        ID 'ERRNO'  FIELD ls_file_list-errno
+        ID 'ERRMSG' FIELD ls_file_list-errmsg.
+
+    CALL 'C_DIR_READ_START' ID 'DIR'    FIELD ld_dirname
+                            ID 'FILE'   FIELD ld_filname
+                            ID 'ERRNO'  FIELD file-errno
+                            ID 'ERRMSG' FIELD file-errmsg.
+    IF sy-subrc <> 0.
+      zcx_ga_file=>raise_symsg( ).
+    ENDIF.
+
+    DO.
+      CLEAR file.
+      CALL 'C_DIR_READ_NEXT'
+        ID 'TYPE'   FIELD file-type
+        ID 'NAME'   FIELD file-name
+        ID 'LEN'    FIELD file-len
+        ID 'OWNER'  FIELD file-owner
+        ID 'MTIME'  FIELD file-mtime
+        ID 'MODE'   FIELD file-fmode
+        ID 'ERRNO'  FIELD file-errno
+        ID 'ERRMSG' FIELD file-errmsg.
+      file-dirname = ld_dirname.
+      MOVE sy-subrc TO file-subrc.
+      CASE sy-subrc.
+        WHEN 0.
+          CLEAR: file-errno, file-errmsg.
+          CASE file-type(1).
+            WHEN 'F'.                    " normal file.
+            WHEN 'f'.                    " normal file.
+            WHEN OTHERS. " directory, device, fifo, socket,...
+              MOVE sap_no  TO file-useable.
+          ENDCASE.
+          IF file-len = 0.
+            MOVE sap_no TO file-useable.
+          ENDIF.
+        WHEN 1.
+          EXIT.
+        WHEN OTHERS.                     " SY-SUBRC >= 2
+          ADD 1 TO errcnt.
+          IF errcnt > 10.
+            EXIT.
+          ENDIF.
+          IF sy-subrc = 5.
+            MOVE: '???' TO file-type,
+                  '???' TO file-owner,
+                  '???' TO file-fmode.
+          ELSE.
+          ENDIF.
+          MOVE sap_no TO file-useable.
+      ENDCASE.
+*   * Does the filename contains the requested pattern?
+*   * Then store it, else forget it.
+      IF ld_pattern = no_cs.
+        MOVE-CORRESPONDING file TO ls_file_list.
+        APPEND ls_file_list TO lt_file_list.
+      ELSE.
+        IF file-name CP ld_pattern.
+          MOVE-CORRESPONDING file TO ls_file_list.
+          APPEND ls_file_list TO lt_file_list..
+        ENDIF.
+      ENDIF.
+    ENDDO.
+
+    CALL 'C_DIR_READ_FINISH'
+        ID 'ERRNO'  FIELD ls_file_list-errno
+        ID 'ERRMSG' FIELD ls_file_list-errmsg.
+    IF sy-subrc <> 0.
+    ENDIF.
+
+
+    IF sy-subrc <> 0.
+      zcx_ga_file=>raise_symsg( ).
+    ENDIF.
+
+    DELETE lt_file_list WHERE name = '.' OR name = '..'.
+    IF ip_files_only = abap_true AND ip_folders_only = abap_false.
+      DELETE lt_file_list WHERE type = 'directory'.
+    ENDIF.
+    IF ip_folders_only = abap_true AND ip_files_only = abap_false.
+      DELETE lt_file_list WHERE type <> 'directory'.
+    ENDIF.
+    DATA: ls_file_path TYPE ty_s_file_path.
+    LOOP AT lt_file_list INTO DATA(ls_file).
+      CLEAR ls_file_path.
+      split_filename( EXPORTING ip_file_path = |{ ip_folder }{ ls_file-name }|
+                                ip_local = abap_false
+      CHANGING iop_path = ls_file_path ).
+
+      IF ls_file-type = 'directory'.
+        ls_file_path-is_directory = abap_true.
+      ENDIF.
+      APPEND ls_file_path TO rt_files.
+    ENDLOOP.
+  ENDMETHOD.
+
+
   METHOD server_file_exists.
     DATA: lx_error TYPE REF TO cx_root.
     r_exists = abap_false.
@@ -1959,9 +2117,11 @@ CLASS zcl_ga_file IMPLEMENTATION.
       CATCH cx_sy_file_access_error
             cx_sy_pipes_not_supported cx_sy_too_many_files
        INTO lx_error.
-        RAISE EXCEPTION TYPE zcx_ga_file
-          EXPORTING
-            error = CONV #( lx_error->get_text( ) ).
+        DATA(ld_error) = lx_error->get_text( ).
+        IF ld_error IS INITIAL.
+          ld_error = |Error at ZCL_GA_FILE=>SERVER_FILE_EXISTS { ip_file }|.
+        ENDIF.
+        zcx_ga_file=>raise_text( ld_error ).
     ENDTRY.
   ENDMETHOD.
 
@@ -1994,6 +2154,27 @@ CLASS zcl_ga_file IMPLEMENTATION.
 
 
   METHOD split_filename.
+    DATA: filename  TYPE  string,
+          extension TYPE  char20,
+          message   TYPE  char100,
+          ret_code  TYPE  char1.
+*    CALL FUNCTION 'ZGET_FILENAME_WITH_EXT'
+*      EXPORTING
+*        ip_full_filename = CONV string( ip_file_path )
+*      IMPORTING
+*        ep_filename      = filename
+*        ep_extension     = extension
+*        ep_message       = message
+*        ep_ret_code      = ret_code.
+*
+*    IF sy-subrc = 0.
+*      iop_path-extension = extension.
+*      iop_path-name = filename.
+*    ELSE.
+*      RAISE EXCEPTION TYPE zcx_ga_file
+*        EXPORTING
+*          syst_at_raise = syst.
+*    ENDIF.
     CALL FUNCTION 'CH_SPLIT_FILENAME'
       EXPORTING
         complete_filename = CONV string( ip_file_path )
@@ -2013,6 +2194,36 @@ CLASS zcl_ga_file IMPLEMENTATION.
         EXPORTING
           syst_at_raise = syst.
     ENDIF.
+    "comprobamos si existe punto en la extensión, es que el nombre del archivo tiene puntos, y se ha calculado mal la extensión
+
+
+    SPLIT iop_path-name_ext AT '.' INTO TABLE DATA(lt_parts).
+    IF lines( lt_parts ) > 2.
+      BREAK i08005.
+      CLEAR: iop_path-name, iop_path-extension.
+      LOOP AT lt_parts INTO DATA(ls_part).
+        data(ld_part) = ls_part.
+        AT FIRST.
+          iop_path-name = ld_part.
+          CONTINUE.
+        ENDAT.
+        AT LAST.
+          iop_path-extension = ld_part.
+          CONTINUE.
+        ENDAT.
+
+        iop_path-name = |{ iop_path-name }.{ ld_part }|.
+      ENDLOOP.
+    ENDIF.
+
+*      CALL FUNCTION 'ZGET_FILENAME_WITH_EXT'
+*        EXPORTING
+*          ip_full_filename = iop_path-name_ext
+*        IMPORTING
+*          ep_filename      = iop_path-name
+*          ep_extension     = iop_path-extension.
+*    ENDIF.
+
     iop_path-path = format_folder( EXPORTING ip_folder = iop_path-path ip_local = ip_local ).
     iop_path-fullpath = ip_file_path.
   ENDMETHOD.

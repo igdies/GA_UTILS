@@ -91,16 +91,29 @@ ENDCLASS.
 CLASS ZCL_SRQLQUERY IMPLEMENTATION.
 
 
-method BUILD_WHERE.
+METHOD build_where.
 
-  do.
-*   last.
-    if strlen( input ) le zcl_srqlquery=>c_query_line_rfc_limit. append input to me->where. exit. endif.
-*   intermediate
-    append input(zcl_srqlquery=>c_query_line_rfc_limit) to me->where. input = input+zcl_srqlquery=>c_query_line_rfc_limit.
-  enddo.
-
-endmethod.
+*  do.
+**   last.
+*    if strlen( input ) le zcl_srqlquery=>c_query_line_rfc_limit. append input to me->where. exit. endif.
+**   intermediate
+*    append input(zcl_srqlquery=>c_query_line_rfc_limit) to me->where. input = input+zcl_srqlquery=>c_query_line_rfc_limit.
+*  enddo.
+  DATA ld_string TYPE string.
+  DO.
+    ld_string = zcl_srqlutil=>split_text(
+      EXPORTING
+        i_text   = input
+        i_length = zcl_srqlquery=>c_query_line_rfc_limit
+      IMPORTING
+        o_text   = input
+    ).
+    APPEND CONV #( ld_string ) TO me->where.
+    IF input IS INITIAL.
+      EXIT.
+    ENDIF.
+  ENDDO.
+ENDMETHOD.
 
 
 method constructor.
@@ -422,33 +435,34 @@ method get_result_timestamp.
 endmethod.
 
 
-method GET_SQL_OPERATOR.
+METHOD get_sql_operator.
 
-  if sign eq 'I'.
-    case option.
-      when 'BT'. result = 'BETWEEN'.
-      when 'NB'. result = 'NOT BETWEEN'.
-      when 'CP'. result = 'LIKE'.
-      when 'NP'. result = 'NOT LIKE'.
-      when others. result = 'EQ'.
-    endcase.
-  else.
-    case option.
-      when 'EQ'. result = 'NE'.
-      when 'NE'. result = 'EQ'.
-      when 'GT'. result = 'LE'.
-      when 'LE'. result = 'GT'.
-      when 'GE'. result = 'LT'.
-      when 'LT'. result = 'GE'.
-      when 'BT'. result = 'NOT BETWEEN'.
-      when 'NB'. result = 'BETWEEN'.
-      when 'CP'. result = 'NOT LIKE'.
-      when 'NP'. result = 'LIKE'.
-      when others. clear result.
-    endcase.
-  endif.
+  IF sign EQ 'I'.
+    CASE option.
+      WHEN 'BT'. result = 'BETWEEN'.
+      WHEN 'NB'. result = 'NOT BETWEEN'.
+      WHEN 'CP'. result = 'LIKE'.
+      WHEN 'NP'. result = 'NOT LIKE'.
 
-endmethod.
+      WHEN OTHERS. result = option.
+    ENDCASE.
+  ELSE.
+    CASE option.
+      WHEN 'EQ'. result = 'NE'.
+      WHEN 'NE'. result = 'EQ'.
+      WHEN 'GT'. result = 'LE'.
+      WHEN 'LE'. result = 'GT'.
+      WHEN 'GE'. result = 'LT'.
+      WHEN 'LT'. result = 'GE'.
+      WHEN 'BT'. result = 'NOT BETWEEN'.
+      WHEN 'NB'. result = 'BETWEEN'.
+      WHEN 'CP'. result = 'NOT LIKE'.
+      WHEN 'NP'. result = 'LIKE'.
+      WHEN OTHERS. CLEAR result.
+    ENDCASE.
+  ENDIF.
+
+ENDMETHOD.
 
 
 method get_where_as_string.
