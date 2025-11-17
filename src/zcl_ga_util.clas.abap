@@ -1,11 +1,11 @@
-class ZCL_GA_UTIL definition
-  public
-  create public .
+CLASS zcl_ga_util DEFINITION
+  PUBLIC
+  CREATE PUBLIC .
 
-public section.
+  PUBLIC SECTION.
 
-  constants:
-    BEGIN OF opt,
+    CONSTANTS:
+      BEGIN OF opt,
         i(1)  VALUE 'I',
         e(1)  VALUE 'E',
         bt(2) VALUE 'BT',
@@ -20,201 +20,224 @@ public section.
         np(2) VALUE 'NP',
         n(40) VALUE 'NB,NE',
       END OF opt .
-  constants:
-    BEGIN OF date_pattern,
+    CONSTANTS:
+      BEGIN OF date_pattern,
         sap_pattern            TYPE string VALUE 'aaaammdd',
         no_sep_no_angl_pattern TYPE string VALUE 'ddmmaaaa',
         no_sep_angl_pattern    TYPE string VALUE 'mmddaaaa',
         sep_no_angl_pattern    TYPE string VALUE 'dd+mm+aaaa',
         sep_angl_pattern       TYPE string VALUE 'mm+dd+aaaa',
       END OF date_pattern .
-  constants:
-    BEGIN OF time_pattern,
+    CONSTANTS:
+      BEGIN OF time_pattern,
         sap_pattern TYPE string VALUE 'hhmmss',
         adp_pattern TYPE string VALUE 'hh:mm:ss tt',
       END OF time_pattern .
 
     "EXPORTING VALUE(op_value) TYPE any
-  class-methods APPLY_CONV_OUT
-    importing
-      !IP_VALUE type ANY
-    returning
-      value(R_OUT) type STRING .
-  class-methods APPLY_CONV         "IMPORTING VALUE(ip_value) TYPE any
-    changing
-      !IOP_VALUE type ANY
-    raising
-      ZCX_GA_UTIL .
-  class-methods ICON_CREATE
-    importing
-      value(IP_ICON) type ANY
-    changing
-      value(IOP_ICON) type ANY
-      value(IOP_TEXT) type ANY optional .
-  class-methods GET_SEL_OPTION_ICON_NAME
-    importing
-      value(IP_SIGN) type ANY
-      value(IP_OPTION) type ANY
-    returning
-      value(R_ICON_NAME) type STRING .
-  class-methods SHOW_SEL_OPTIONS
-    importing
-      value(IP_TITLE) type SY-TITLE optional
-      value(IP_JUST_DISPLAY) type ABAP_BOOL default ABAP_FALSE
-      value(IS_OPTIONLIST) type RSOPTIONS optional
-      value(IP_SIGNS_RESTRICTION) type RALDB-SIGN optional
-      value(IP_NO_DEL_LINE) type ABAP_BOOL default ABAP_TRUE
-    changing
-      value(IOP_SIGN) type TVARV_SIGN optional
-      value(IOP_OPTION) type TVARV_OPTI optional
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods SHOW_COMPLEX_SEL_OPTIONS
-    importing
-      !IP_TITLE type SY-TITLE optional
-      !IP_TEXT type RSSELTEXT optional
-      !IP_SIGNED type ABAP_BOOL default ABAP_TRUE
-      !IP_LOWER_CASE type ABAP_BOOL default ABAP_FALSE
-      !IP_NO_INTERVAL_CHECK type ABAP_BOOL default ABAP_TRUE
-      !IP_JUST_DISPLAY type ABAP_BOOL default ABAP_FALSE
-      !IP_JUST_INCL type ABAP_BOOL default ABAP_FALSE
-      !IS_EXCLUDED_OPTIONS type RSOPTIONS optional
-      !IP_ELEMENT_DATA type STRING default 'STRING'
-    changing
-      !IOT_RANGE type ANY TABLE
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods POPUP_TO_CONFIRM
-    importing
-      !IV_TITLE type CSEQUENCE
-      !IV_QUESTION type CSEQUENCE
-      !IV_ICON_1 type ICON-NAME default 'ICON_OKAY'
-      !IV_TEXT_1 type CSEQUENCE optional
-      !IV_ICON_2 type ICON-NAME default 'ICON_CANCEL'
-      !IV_TEXT_2 type CSEQUENCE optional
-      !IV_DEFAULT type CHAR1 default '2'
-      !IV_DISPLAY_CANCEL type ABAP_BOOL optional
-    returning
-      value(RV_OK) type ABAP_BOOL .
-  class-methods CREATE_REF_TO_RANGE
-    importing
-      !IP_NAME_DATA type STRING optional
-      !IP_DATA type ANY optional
-    returning
-      value(RO_REF) type ref to DATA .
-  class-methods DEBUG
-    importing
-      value(IP_MS_DEBUG_TIME) type I default 60          "#EC NUMBER_OK
-      value(IP_JUST_BATCH) type ABAP_BOOL default ABAP_TRUE
-      value(IP_USER) type SY-UNAME default SY-UNAME .
-  class-methods GET_COMPONENTS
-    importing
-      !IO_STRUCTURE type ref to CL_ABAP_STRUCTDESCR
-    changing
-      !IOT_COLUMNS type ABAP_COMPONENT_TAB .
-  methods CONSTRUCTOR
-    importing
-      value(IP_LOGGER) type ref to ZCL_ALOG_MSG_LOGGER_BASE optional .
-  methods LOG_D
-    importing
-      value(IV_TEXT) type CSEQUENCE .
-  methods LOG_E
-    importing
-      value(IV_TEXT) type CSEQUENCE .
-  methods LOG_I
-    importing
-      value(IV_TEXT) type CSEQUENCE .
-  methods LOG_W
-    importing
-      value(IV_TEXT) type CSEQUENCE .
-  methods LOG_EXCEPTION
-    importing
-      value(IX_EX) type ref to CX_ROOT .
-  class-methods GET_SINGLETON
-    importing
-      value(IP_LOGGER) type ref to ZCL_ALOG_MSG_LOGGER_BASE optional
-    returning
-      value(R_SINGLE) type ref to ZCL_GA_UTIL .
-  class-methods GET_LVC_FCAT
-    importing
-      !IP_DATA type ANY
-    returning
-      value(RT_FCAT) type LVC_T_FCAT .
-  class-methods GET_SLIS_FCAT
-    importing
-      !IP_DATA type ANY
-    returning
-      value(RT_FCAT) type SLIS_T_FIELDCAT_ALV .
-  class-methods CHECK_PLAUSABILITY_DATE
-    importing
-      !IP_POSSIBLE_DATE type ANY
-      !IP_DATE_PATTERN type STRING optional
-    exporting
-      value(OP_SERIOUS_DOUBT) type ABAP_BOOL
-    returning
-      value(R_DATE) type SY-DATUM
-    raising
-      ZCX_GA_UTIL .
-  class-methods CHECK_PLAUSABILITY_TIME
-    importing
-      !IP_POSSIBLE_TIME type ANY
-      !IP_TIME_PATTERN type STRING default TIME_PATTERN-SAP_PATTERN
-    exporting
-      value(OP_OK) type ABAP_BOOL
-    returning
-      value(R_TIME) type SY-UZEIT
-    raising
-      ZCX_GA_UTIL .
-  class-methods IS_SUBCLASS
-    importing
-      value(IP_CLASS) type SEOCLSNAME
-      value(IP_SUBCLASS) type SEOCLSNAME optional
-      value(IP_SUBCLASS_OBJ) type ref to OBJECT optional
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods SHOW_MESSAGES
-    importing
-      value(IP_TITLE) type STRING optional
-      value(IT_MESSAGES) type BAPIRET2_T optional
-    changing
-      value(IOT_ANSWER) type BAL_S_EXCM optional .
-  class-methods READ_TEXT
-    importing
-      value(IS_HEAD) type THEAD
-    exporting
-      value(OT_TEXT) type BBPT_TLINE
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods GET_STANDARD_TEXT
-    importing
-      value(IP_TDOBJECT) type TDOBJECT
-      value(IP_TDNAME) type TDOBNAME
-      value(IP_TDID) type TDID optional
-      value(IP_SPRAS) type SPRAS default SY-LANGU
-    returning
-      value(RT_TEXT) type BBPT_TLINE .
-  class-methods CHECK_TIME_IS_ADP_PATTERN
-    importing
-      !IP_TIME_STRING type STRING
-    exporting
-      !OP_TIME type T
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods CHECK_TIME_IS_SAP_PATTERN
-    importing
-      !IP_TIME_STRING type STRING
-    exporting
-      !OP_TIME type T
-    returning
-      value(R_OK) type ABAP_BOOL .
-  class-methods CHECK_TIME_VALUES
-    changing
-      !IOP_HOUR type N
-      !IOP_MINUTES type N
-      !IOP_SECONDS type N
-      !IOP_TT type C optional
-    returning
-      value(R_OK) type ABAP_BOOL .
+    CLASS-METHODS apply_conv_out
+      IMPORTING
+        !ip_value    TYPE any
+      RETURNING
+        VALUE(r_out) TYPE string .
+    CLASS-METHODS apply_conv         "IMPORTING VALUE(ip_value) TYPE any
+      CHANGING
+        !iop_value TYPE any
+      RAISING
+        zcx_ga_util .
+    CLASS-METHODS icon_create
+      IMPORTING
+        VALUE(ip_icon)  TYPE any
+      CHANGING
+        VALUE(iop_icon) TYPE any
+        VALUE(iop_text) TYPE any OPTIONAL .
+    CLASS-METHODS get_sel_option_icon_name
+      IMPORTING
+        VALUE(ip_sign)     TYPE any
+        VALUE(ip_option)   TYPE any
+      RETURNING
+        VALUE(r_icon_name) TYPE string .
+    CLASS-METHODS get_ref_to_struct
+      IMPORTING
+                VALUE(ip_structure_name) TYPE string
+                VALUE(ip_rfc_dest)       TYPE rfcdest OPTIONAL
+                VALUE(it_fields)         TYPE esh_t_co_rfcrt_fields OPTIONAL
+                VALUE(ip_table)          TYPE abap_bool DEFAULT abap_false
+      RETURNING
+                VALUE(op_data)           TYPE REF TO data
+      RAISING   zcx_ga_util.
+    CLASS-METHODS get_rfc_table
+      IMPORTING
+        VALUE(ip_tabname)         TYPE tabname
+        VALUE(ip_rfc_dest)        TYPE rfcdest OPTIONAL
+        VALUE(it_fields)          TYPE esh_t_co_rfcrt_fields OPTIONAL
+        VALUE(it_where_selection) TYPE rsds_trange OPTIONAL
+        VALUE(it_where)           TYPE esh_t_co_rfcrt_options OPTIONAL
+        VALUE(ip_buffered)        TYPE abap_bool DEFAULT abap_false
+      EXPORTING
+        VALUE(op_data)            TYPE REF TO data
+        VALUE(ot_message)         TYPE bapiret2_tab
+      RAISING
+        zcx_ga_util
+      .
+    CLASS-METHODS show_sel_options
+      IMPORTING
+        VALUE(ip_title)             TYPE sy-title OPTIONAL
+        VALUE(ip_just_display)      TYPE abap_bool DEFAULT abap_false
+        VALUE(is_optionlist)        TYPE rsoptions OPTIONAL
+        VALUE(ip_signs_restriction) TYPE raldb-sign OPTIONAL
+        VALUE(ip_no_del_line)       TYPE abap_bool DEFAULT abap_true
+      CHANGING
+        VALUE(iop_sign)             TYPE tvarv_sign OPTIONAL
+        VALUE(iop_option)           TYPE tvarv_opti OPTIONAL
+      RETURNING
+        VALUE(r_ok)                 TYPE abap_bool .
+    CLASS-METHODS show_complex_sel_options
+      IMPORTING
+        !ip_title             TYPE sy-title OPTIONAL
+        !ip_text              TYPE rsseltext OPTIONAL
+        !ip_signed            TYPE abap_bool DEFAULT abap_true
+        !ip_lower_case        TYPE abap_bool DEFAULT abap_false
+        !ip_no_interval_check TYPE abap_bool DEFAULT abap_true
+        !ip_just_display      TYPE abap_bool DEFAULT abap_false
+        !ip_just_incl         TYPE abap_bool DEFAULT abap_false
+        !is_excluded_options  TYPE rsoptions OPTIONAL
+        !ip_element_data      TYPE string DEFAULT 'STRING'
+      CHANGING
+        !iot_range            TYPE ANY TABLE
+      RETURNING
+        VALUE(r_ok)           TYPE abap_bool .
+    CLASS-METHODS popup_to_confirm
+      IMPORTING
+        !iv_title          TYPE csequence
+        !iv_question       TYPE csequence
+        !iv_icon_1         TYPE icon-name DEFAULT 'ICON_OKAY'
+        !iv_text_1         TYPE csequence OPTIONAL
+        !iv_icon_2         TYPE icon-name DEFAULT 'ICON_CANCEL'
+        !iv_text_2         TYPE csequence OPTIONAL
+        !iv_default        TYPE char1 DEFAULT '2'
+        !iv_display_cancel TYPE abap_bool OPTIONAL
+      RETURNING
+        VALUE(rv_ok)       TYPE abap_bool .
+    CLASS-METHODS create_ref_to_range
+      IMPORTING
+        !ip_name_data TYPE string OPTIONAL
+        !ip_data      TYPE any OPTIONAL
+      RETURNING
+        VALUE(ro_ref) TYPE REF TO data .
+    CLASS-METHODS debug
+      IMPORTING
+        VALUE(ip_ms_debug_time) TYPE i DEFAULT 60        "#EC NUMBER_OK
+        VALUE(ip_just_batch)    TYPE abap_bool DEFAULT abap_true
+        VALUE(ip_user)          TYPE sy-uname DEFAULT sy-uname .
+    CLASS-METHODS get_components
+      IMPORTING
+        !io_structure TYPE REF TO cl_abap_structdescr
+      CHANGING
+        !iot_columns  TYPE abap_component_tab .
+    METHODS constructor
+      IMPORTING
+        VALUE(ip_logger) TYPE REF TO zcl_alog_msg_logger_base OPTIONAL .
+    METHODS log_d
+      IMPORTING
+        VALUE(iv_text) TYPE csequence .
+    METHODS log_e
+      IMPORTING
+        VALUE(iv_text) TYPE csequence .
+    METHODS log_i
+      IMPORTING
+        VALUE(iv_text) TYPE csequence .
+    METHODS log_w
+      IMPORTING
+        VALUE(iv_text) TYPE csequence .
+    METHODS log_exception
+      IMPORTING
+        VALUE(ix_ex) TYPE REF TO cx_root .
+    CLASS-METHODS get_singleton
+      IMPORTING
+        VALUE(ip_logger) TYPE REF TO zcl_alog_msg_logger_base OPTIONAL
+      RETURNING
+        VALUE(r_single)  TYPE REF TO zcl_ga_util .
+    CLASS-METHODS get_lvc_fcat
+      IMPORTING
+        !ip_data       TYPE any
+      RETURNING
+        VALUE(rt_fcat) TYPE lvc_t_fcat .
+    CLASS-METHODS get_slis_fcat
+      IMPORTING
+        !ip_data       TYPE any
+      RETURNING
+        VALUE(rt_fcat) TYPE slis_t_fieldcat_alv .
+    CLASS-METHODS check_plausability_date
+      IMPORTING
+        !ip_possible_date       TYPE any
+        !ip_date_pattern        TYPE string OPTIONAL
+      EXPORTING
+        VALUE(op_serious_doubt) TYPE abap_bool
+      RETURNING
+        VALUE(r_date)           TYPE sy-datum
+      RAISING
+        zcx_ga_util .
+    CLASS-METHODS check_plausability_time
+      IMPORTING
+        !ip_possible_time TYPE any
+        !ip_time_pattern  TYPE string DEFAULT time_pattern-sap_pattern
+      EXPORTING
+        VALUE(op_ok)      TYPE abap_bool
+      RETURNING
+        VALUE(r_time)     TYPE sy-uzeit
+      RAISING
+        zcx_ga_util .
+    CLASS-METHODS is_subclass
+      IMPORTING
+        VALUE(ip_class)        TYPE seoclsname
+        VALUE(ip_subclass)     TYPE seoclsname OPTIONAL
+        VALUE(ip_subclass_obj) TYPE REF TO object OPTIONAL
+      RETURNING
+        VALUE(r_ok)            TYPE abap_bool .
+    CLASS-METHODS show_messages
+      IMPORTING
+        VALUE(ip_title)    TYPE string OPTIONAL
+        VALUE(it_messages) TYPE bapiret2_t OPTIONAL
+      CHANGING
+        VALUE(iot_answer)  TYPE bal_s_excm OPTIONAL .
+    CLASS-METHODS read_text
+      IMPORTING
+        VALUE(is_head) TYPE thead
+      EXPORTING
+        VALUE(ot_text) TYPE bbpt_tline
+      RETURNING
+        VALUE(r_ok)    TYPE abap_bool .
+    CLASS-METHODS get_standard_text
+      IMPORTING
+        VALUE(ip_tdobject) TYPE tdobject
+        VALUE(ip_tdname)   TYPE tdobname
+        VALUE(ip_tdid)     TYPE tdid OPTIONAL
+        VALUE(ip_spras)    TYPE spras DEFAULT sy-langu
+      RETURNING
+        VALUE(rt_text)     TYPE bbpt_tline .
+    CLASS-METHODS check_time_is_adp_pattern
+      IMPORTING
+        !ip_time_string TYPE string
+      EXPORTING
+        !op_time        TYPE t
+      RETURNING
+        VALUE(r_ok)     TYPE abap_bool .
+    CLASS-METHODS check_time_is_sap_pattern
+      IMPORTING
+        !ip_time_string TYPE string
+      EXPORTING
+        !op_time        TYPE t
+      RETURNING
+        VALUE(r_ok)     TYPE abap_bool .
+    CLASS-METHODS check_time_values
+      CHANGING
+        !iop_hour    TYPE n
+        !iop_minutes TYPE n
+        !iop_seconds TYPE n
+        !iop_tt      TYPE c OPTIONAL
+      RETURNING
+        VALUE(r_ok)  TYPE abap_bool .
   PROTECTED SECTION.
     CONSTANTS: BEGIN OF icons_sel_option,
                  eq(50)   VALUE 'ICON_EQUAL_',
@@ -230,21 +253,21 @@ public section.
                  green(5) VALUE 'GREEN',
                  red(3)   VALUE 'RED',
                END OF icons_sel_option.
-private section.
+  PRIVATE SECTION.
 
-  data O_LOGGER type ref to ZCL_ALOG_MSG_LOGGER_BASE .
-  class-data M_SINGLETON type ref to ZCL_GA_UTIL .
+    DATA o_logger TYPE REF TO zcl_alog_msg_logger_base .
+    CLASS-DATA m_singleton TYPE REF TO zcl_ga_util .
 
-  class-methods GET_PARENT_CLASS
-    importing
-      value(IP_CLASS) type SEOCLSNAME
-    returning
-      value(R_CLASS) type SEOCLSNAME .
+    CLASS-METHODS get_parent_class
+      IMPORTING
+        VALUE(ip_class) TYPE seoclsname
+      RETURNING
+        VALUE(r_class)  TYPE seoclsname .
 ENDCLASS.
 
 
 
-CLASS ZCL_GA_UTIL IMPLEMENTATION.
+CLASS zcl_ga_util IMPLEMENTATION.
 
 
   METHOD apply_conv.
@@ -1007,60 +1030,60 @@ CLASS ZCL_GA_UTIL IMPLEMENTATION.
   ENDMETHOD.
 
 
-METHOD POPUP_TO_CONFIRM.
-  DATA lt_param  TYPE abap_func_parmbind_tab.
-  DATA ls_param  TYPE abap_func_parmbind.
-  DATA lt_exc    TYPE abap_func_excpbind_tab.
-  DATA ls_exc    TYPE abap_func_excpbind.
-  DATA lv_answer TYPE char1.
+  METHOD popup_to_confirm.
+    DATA lt_param  TYPE abap_func_parmbind_tab.
+    DATA ls_param  TYPE abap_func_parmbind.
+    DATA lt_exc    TYPE abap_func_excpbind_tab.
+    DATA ls_exc    TYPE abap_func_excpbind.
+    DATA lv_answer TYPE char1.
 
-  DEFINE add_param.
-    GET REFERENCE OF &1 INTO ls_param-value.
-    ls_param-name = &2.
-    ls_param-kind = &3.
-    INSERT ls_param INTO TABLE lt_param.
-  END-OF-DEFINITION.
+    DEFINE add_param.
+      GET REFERENCE OF &1 INTO ls_param-value.
+      ls_param-name = &2.
+      ls_param-kind = &3.
+      INSERT ls_param INTO TABLE lt_param.
+    END-OF-DEFINITION.
 
-  " Parameters
-  add_param iv_title           'TITLEBAR'               abap_func_exporting.
-  add_param iv_question        'TEXT_QUESTION'          abap_func_exporting.
-  add_param iv_icon_1          'ICON_BUTTON_1'          abap_func_exporting.
-  add_param iv_icon_2          'ICON_BUTTON_2'          abap_func_exporting.
-  add_param iv_default         'DEFAULT_BUTTON'         abap_func_exporting.
-  add_param iv_display_cancel  'DISPLAY_CANCEL_BUTTON'  abap_func_exporting.
-  add_param lv_answer          'ANSWER'                 abap_func_importing.
+    " Parameters
+    add_param iv_title           'TITLEBAR'               abap_func_exporting.
+    add_param iv_question        'TEXT_QUESTION'          abap_func_exporting.
+    add_param iv_icon_1          'ICON_BUTTON_1'          abap_func_exporting.
+    add_param iv_icon_2          'ICON_BUTTON_2'          abap_func_exporting.
+    add_param iv_default         'DEFAULT_BUTTON'         abap_func_exporting.
+    add_param iv_display_cancel  'DISPLAY_CANCEL_BUTTON'  abap_func_exporting.
+    add_param lv_answer          'ANSWER'                 abap_func_importing.
 
-  " Yes
-  IF iv_text_1 IS SUPPLIED.
-    add_param iv_text_1        'TEXT_BUTTON_1'          abap_func_exporting.
-  ENDIF.
+    " Yes
+    IF iv_text_1 IS SUPPLIED.
+      add_param iv_text_1        'TEXT_BUTTON_1'          abap_func_exporting.
+    ENDIF.
 
-  " No
-  IF iv_text_2 IS SUPPLIED.
-    add_param iv_text_2        'TEXT_BUTTON_2'          abap_func_exporting.
-  ENDIF.
+    " No
+    IF iv_text_2 IS SUPPLIED.
+      add_param iv_text_2        'TEXT_BUTTON_2'          abap_func_exporting.
+    ENDIF.
 
-  " Exceptions
-  ls_exc-name  = 'OTHERS'.
-  ls_exc-value = 1.
-  INSERT ls_exc INTO TABLE lt_exc.
+    " Exceptions
+    ls_exc-name  = 'OTHERS'.
+    ls_exc-value = 1.
+    INSERT ls_exc INTO TABLE lt_exc.
 
-  CALL FUNCTION 'POPUP_TO_CONFIRM'
-    PARAMETER-TABLE lt_param
-    EXCEPTION-TABLE lt_exc.
-  CHECK sy-subrc = 0. " No ?
+    CALL FUNCTION 'POPUP_TO_CONFIRM'
+      PARAMETER-TABLE lt_param
+      EXCEPTION-TABLE lt_exc.
+    CHECK sy-subrc = 0. " No ?
 
-  CASE lv_answer.
-    WHEN '0'. " No
-      rv_ok = abap_false.
+    CASE lv_answer.
+      WHEN '0'. " No
+        rv_ok = abap_false.
 
-    WHEN '1'. " Yes
-      rv_ok = abap_true.
+      WHEN '1'. " Yes
+        rv_ok = abap_true.
 
-    WHEN 'A'. " Cancel
-      rv_ok = abap_undefined.
-  ENDCASE.
-ENDMETHOD.
+      WHEN 'A'. " Cancel
+        rv_ok = abap_undefined.
+    ENDCASE.
+  ENDMETHOD.
 
 
   METHOD read_text.
@@ -1229,5 +1252,211 @@ ENDMETHOD.
       iop_option = ld_option.
 
     ENDIF.
+  ENDMETHOD.
+  METHOD get_rfc_table.
+    DATA:
+      lt_raw_tab    TYPE TABLE OF tab512,
+      ls_raw_line   TYPE tab512,
+      ld_field      TYPE string,
+      lr_workarea   TYPE REF TO data,
+      lo_line_type  TYPE REF TO cl_abap_structdescr,
+      lo_table_type TYPE REF TO cl_abap_tabledescr,
+      ls_field      TYPE LINE OF esh_t_co_rfcrt_fields.
+    DATA: lo_table TYPE REF TO data.
+
+*    IF ip_buffered = abap_true AND ip_connector IS INITIAL.
+*      ot_message     = get_return_message(
+*      iv_type   = 'E'
+*      iv_number = '000'
+*      iv_par1 = 'Parametros Incorrectos'
+*      ).
+*      RAISE EXCEPTION TYPE cx_grfn_exception
+*        EXPORTING
+*          status = ot_message.
+*    ENDIF.
+*
+*    IF ip_buffered = abap_true.
+*      READ TABLE t_tables INTO DATA(ls_table) WITH KEY
+*        tabname = ip_tabname
+*        id_gasystem = ip_connector-id_gasystem.
+*      IF sy-subrc = 0.
+*        op_data = ls_table-data.
+*      ENDIF.
+*    ENDIF.
+*
+    TRY.
+        zcl_ga_util=>get_ref_to_struct(
+          EXPORTING
+            ip_structure_name = CONV string( ip_tabname )
+            ip_rfc_dest       = ip_rfc_dest
+            it_fields         = it_fields
+            ip_table          = abap_true
+          RECEIVING
+            op_data           = op_data
+        ).
+      CATCH zcx_ga_util INTO DATA(lo_ex).
+        RAISE EXCEPTION lo_ex.
+    ENDTRY.
+    IF op_data IS NOT BOUND.
+      zcx_ga_util=>raise_text( |Not possible to create dynamic structure for { ip_tabname }| ).
+    ENDIF.
+    IF it_where_selection IS NOT INITIAL.
+      DATA: lt_where     TYPE rsds_twhere,
+            ls_where     TYPE LINE OF rsds_twhere,
+            lt_aux_where TYPE esh_t_co_rfcrt_options.
+      CALL FUNCTION 'FREE_SELECTIONS_RANGE_2_WHERE'
+        EXPORTING
+          field_ranges  = it_where_selection
+        IMPORTING
+          where_clauses = lt_where.
+      LOOP AT lt_where INTO ls_where
+        WHERE tablename = ip_tabname.
+        APPEND LINES OF ls_where-where_tab TO lt_aux_where.
+      ENDLOOP.
+      IF it_where IS NOT INITIAL.
+        APPEND 'AND' TO lt_aux_where.
+      ENDIF.
+    ENDIF.
+
+    APPEND LINES OF it_where TO lt_aux_where.
+
+
+    CALL FUNCTION 'RFC_READ_TABLE' DESTINATION ip_rfc_dest
+      EXPORTING
+        query_table = ip_tabname
+      TABLES
+        options     = lt_aux_where
+        fields      = it_fields
+        data        = lt_raw_tab
+      EXCEPTIONS
+        OTHERS      = 7.
+    IF sy-subrc <> 0.
+      zcx_ga_util=>raise_text( |Error Reading table { ip_tabname } at { ip_rfc_dest }| ).
+    ENDIF.
+    FIELD-SYMBOLS: <lf_field> TYPE any,
+                   <lf_line>  TYPE any,
+                   <lf_table> TYPE STANDARD TABLE.
+    TRY.
+*
+        ASSIGN op_data->* TO <lf_table>.
+
+        lo_table_type ?= cl_abap_tabledescr=>describe_by_data( <lf_table> ).
+        lo_line_type ?= lo_table_type->get_table_line_type( ).
+
+        CREATE DATA lr_workarea TYPE HANDLE lo_line_type.
+
+        ASSIGN lr_workarea->* TO <lf_line>.
+*
+      CATCH cx_root.
+        zcx_ga_util=>raise_text( |Error creating dynamic structure for table { ip_tabname }| ).
+    ENDTRY.
+*
+    LOOP AT lt_raw_tab INTO ls_raw_line.
+      LOOP AT it_fields INTO ls_field.
+        ld_field = ls_raw_line+ls_field-offset(ls_field-length).
+        ASSIGN COMPONENT ls_field-fieldname OF STRUCTURE <lf_line> TO <lf_field>.
+        IF <lf_field> IS ASSIGNED.
+          MOVE ld_field TO <lf_field>.
+        ENDIF.
+      ENDLOOP.
+      COLLECT <lf_line> INTO <lf_table>.
+    ENDLOOP.
+
+  ENDMETHOD.
+  METHOD get_ref_to_struct.
+    DATA: lt_fields_struct TYPE TABLE OF x031l,
+          ls_field_struct  TYPE x031l.
+    DATA: lo_type              TYPE REF TO cl_abap_typedescr,
+          lo_field_type        TYPE REF TO cl_abap_datadescr,
+          lo_line_type         TYPE REF TO cl_abap_structdescr,
+          lo_tabletype         TYPE REF TO cl_abap_tabledescr,
+          lt_components_struct TYPE abap_component_tab,
+          ls_component_struct  TYPE abap_componentdescr,
+          lo_aux_ref_data      TYPE REF TO data.
+    DATA: ld_length   TYPE i,
+          ld_decimals TYPE i.
+    CALL FUNCTION 'DD_GET_NAMETAB_FOR_RFC'
+      DESTINATION ip_rfc_dest
+      EXPORTING
+        tabname   = CONV tabname( ip_structure_name )
+      TABLES
+        x031l_tab = lt_fields_struct
+      EXCEPTIONS
+        not_found = 1
+        OTHERS    = 2.
+    IF sy-subrc <> 0.
+      zcx_ga_util=>raise_text( iv_text = |Table { ip_structure_name } does not exist at { ip_rfc_dest }| ).
+
+    ENDIF.
+
+    LOOP AT lt_fields_struct INTO ls_field_struct WHERE depth = 0.
+      CHECK ls_field_struct-dtyp IS NOT INITIAL.
+      ld_length = ls_field_struct-exlength.
+      ld_decimals = ls_field_struct-decimals.
+      CLEAR ls_component_struct.
+      FREE lo_type.
+      TRY .
+          CALL METHOD cl_abap_typedescr=>describe_by_name
+            EXPORTING
+              p_name         = ls_field_struct-rollname
+            RECEIVING
+              p_descr_ref    = lo_type
+            EXCEPTIONS
+              type_not_found = 1.
+        CATCH cx_root.
+
+      ENDTRY.
+
+      IF lo_type IS NOT BOUND.
+        CASE ls_field_struct-exid.
+          WHEN 'STRING'.  lo_type  ?= cl_abap_elemdescr=>get_string( ).
+          WHEN 'XSTRING'. lo_type  ?= cl_abap_elemdescr=>get_xstring( ).
+          WHEN 'I'.       lo_type  ?= cl_abap_elemdescr=>get_i( ).
+          WHEN 'F'.       lo_type  ?= cl_abap_elemdescr=>get_f( ).
+          WHEN 'D'.       lo_type  ?= cl_abap_elemdescr=>get_d( ).
+          WHEN 'T'.       lo_type  ?= cl_abap_elemdescr=>get_t(  ).
+          WHEN 'C'.       lo_type  ?= cl_abap_elemdescr=>get_c( p_length = ld_length ).
+          WHEN 'N'.       lo_type  ?= cl_abap_elemdescr=>get_n( p_length = ld_length ).
+          WHEN 'X'.       lo_type  ?= cl_abap_elemdescr=>get_x( p_length = ld_length ).
+          WHEN 'P'.
+            ld_length = CONV i( ls_field_struct-dblength ).
+            ld_decimals = CONV i( ls_field_struct-decimals ).
+            lo_type  ?= cl_abap_elemdescr=>get_p( p_length = ld_length p_decimals = ld_decimals ).
+          WHEN OTHERS.
+            CASE ls_field_struct-dtyp.
+              WHEN 'STR1'.
+*              PERFORM f_get_ref_to_struc USING ls_field_struct-rollname
+*                    ip_rfc_dest
+*              CHANGING lo_aux_ref_data.
+                lo_aux_ref_data = get_ref_to_struct( EXPORTING ip_structure_name = CONV string( ls_field_struct-rollname )
+                                                               ip_rfc_dest = ip_rfc_dest
+                                                               it_fields = it_fields ).
+                lo_type ?= cl_abap_structdescr=>describe_by_data_ref( lo_aux_ref_data ).
+              WHEN OTHERS.
+                CONTINUE.
+            ENDCASE.
+        ENDCASE.
+      ENDIF.
+      CHECK lo_type IS BOUND.
+      CLEAR ls_component_struct.
+      ls_component_struct-name = ls_field_struct-fieldname.
+      ls_component_struct-type ?= lo_type.
+      IF it_fields IS NOT INITIAL.
+        READ TABLE it_fields TRANSPORTING NO FIELDS WITH KEY fieldname = ls_component_struct-name.
+        IF sy-subrc <> 0. "si no lo encuentro en las peticiones... continuo
+          CONTINUE.
+        ENDIF.
+      ENDIF.
+      APPEND ls_component_struct TO lt_components_struct.
+    ENDLOOP.
+    lo_line_type = cl_abap_structdescr=>create( lt_components_struct ).
+    CASE ip_table.
+      WHEN abap_false.
+        CREATE DATA op_data TYPE HANDLE lo_line_type.
+      WHEN abap_true.
+        lo_tabletype =
+                  cl_abap_tabledescr=>create( p_line_type = lo_line_type ).
+        CREATE DATA op_data TYPE HANDLE lo_tabletype.
+    ENDCASE.
   ENDMETHOD.
 ENDCLASS.

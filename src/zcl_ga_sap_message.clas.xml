@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_GA_SAP_MESSAGE</CLSNAME>
+    <LANGU>S</LANGU>
+    <DESCRIPT>mensaje sap</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>ARG1</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>ARG2</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>ARG3</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>ARG4</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>CONSTRUCTOR</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>FROM_BAPIRET2</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Factory Method</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_MESSAGE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Devuelve el texto del mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>ID</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Clase de mensajes</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>MESSAGE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Texto de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>NUMBER</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Número de mensaje</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>TYPE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Tipo mensaje: S Success, E Error, W Warning, I Info A Abort</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>CONSTRUCTOR</CMPNAME>
+     <SCONAME>I_TYPE</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Tipo mensaje: S Success, E Error, W Warning, I Info A Abort</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>FROM_BAPIRET2</CMPNAME>
+     <SCONAME>I_BAPIRET2</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Parámetro de retorno</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>FROM_BAPIRET2</CMPNAME>
+     <SCONAME>R_MESSAGE</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>mensaje sap</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

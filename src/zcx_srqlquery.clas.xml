@@ -4,7 +4,7 @@
   <asx:values>
    <VSEOCLASS>
     <CLSNAME>ZCX_SRQLQUERY</CLSNAME>
-    <LANGU>2</LANGU>
+    <LANGU>E</LANGU>
     <DESCRIPT>SRQL Exception</DESCRIPT>
     <CATEGORY>40</CATEGORY>
     <STATE>1</STATE>

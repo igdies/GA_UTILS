@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_GA_IO_UTILS</CLSNAME>
+    <LANGU>S</LANGU>
+    <DESCRIPT>IO utils</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_ISO_LANGUAGE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Devuelve le ISO de un idioma SAP</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_ISO_LANGUAGE</CMPNAME>
+     <SCONAME>I_SPRAS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Clave de idioma</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_SAP_LANGUAGE</CMPNAME>
+     <SCONAME>R_SPRAS</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Clave de idioma</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>GET_STD_MESSAGE</CMPNAME>
+     <SCONAME>I_MESSAGE</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>mensaje sap</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

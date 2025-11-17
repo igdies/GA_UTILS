@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_GA_LIST</CLSNAME>
+    <LANGU>S</LANGU>
+    <DESCRIPT>list</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>APPEND</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Añade un objeto al final de la lista</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>APPEND_LIST</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Añade una lista a otra</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CLEAR</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Borra la lista</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CURRENT_INDEX</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Posición actual en la lista</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>DELETE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Borra el elemento indicado</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>FROM_OBJECT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>CONVIERTE UN ESCALAR EN UN OBJECTo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GET_AT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Recupera el elemento en la posición indiucada</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>HAS_NEXT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>TRUE si no es el último elmeneto</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>INDEXED</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable booleana (X=verdadero, -=falso, space=descon.)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>INSERT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Inserta un elemento en la posición actual (o en la posició)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>NEXT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Devuelve el elemento siguiente y avanza el puntero</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>RESET_INDEX</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Resetea ela posición (a 0)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SET_INDEX</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Establece la posición</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SIZE</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Devuelve el tamaño</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>TO_OBJECT</CMPNAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>CONVIERTE UN ESCALAR EN UN OBJECTo</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>APPEND_LIST</CMPNAME>
+     <SCONAME>I_LIST</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>list</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>HAS_NEXT</CMPNAME>
+     <SCONAME>R_HAS_NEXT</SCONAME>
+     <LANGU>S</LANGU>
+     <DESCRIPT>Variable booleana (X=verdadero, -=falso, space=descon.)</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>
