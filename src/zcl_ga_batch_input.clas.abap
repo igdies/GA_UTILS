@@ -14,7 +14,9 @@ public section.
                  holddate TYPE apqi-startdate,
                END OF ty_s_options_session .
 
-  methods CLOSE_SESSION .
+  methods CLOSE_SESSION
+    returning
+      value(RS_SESSION) type TY_S_OPTIONS_SESSION .
   methods SET_TRANSACTION
     importing
       value(IP_TCODE) type SY-TCODE
@@ -135,6 +137,7 @@ ENDMETHOD.
 
 
   METHOD close_session.
+    rs_session = ms_options_session.
     IF md_session = abap_true.
       CALL FUNCTION 'BDC_CLOSE_GROUP'.
       CLEAR md_session_opened.
@@ -222,9 +225,9 @@ ENDMETHOD.
           ENDIF.
           "si es moneda y tenemos referencia
           IF ls_dfies-datatype = 'CURR' AND ip_ref_value IS NOT INITIAL AND is_cuky( ip_ref_value ).
-            DATA ld_curr TYPE cms_dte_calc_int_res_amt."campo tipo currency de mayor valor
+            DATA ld_curr TYPE f."campo tipo currency de mayor valor
             ld_curr = CONV #( ip_value ).
-            r_value = |{ ld_curr CURRENCY = ip_ref_value }|.
+            r_value = |{ ld_curr CURRENCY = ip_ref_value number = User }|.
             RETURN.
           ENDIF.
 *          if ls_dfies-convexit is not initial.
